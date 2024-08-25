@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#test{
+  background-image: url(./../public/img/slider/1.jpg);
+
+  z-index: 111112;
+}
