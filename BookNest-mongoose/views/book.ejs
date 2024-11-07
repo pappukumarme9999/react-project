@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Product Details</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+		body {
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+}
+
+form {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+h1 {
+	text-align: center;
+	margin-top: 0;
+}
+
+label {
+	display: block;
+	margin-top: 10px;
+	font-weight: bold;
+}
+	</style>
+</head>
+<body>
+	<form action="/book/add" method="POST" enctype="multipart/form-data">
+		<h1>Product Details</h1>
+		
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" >
+		
+		<label for="description">Description:</label>
+		<textarea id="description" name="description"></textarea>
+		
+		<label for="author">Author:</label>
+		<input type="text" id="author" name="author">
+		
+		<label for="price">Price:</label>
+		<input type="number" id="price" name="price">
+		
+		<label for="categoryID">Category ID:</label>
+		<input type="number" id="categoryID" name="categoryID">
+		
+		<label for="language">Language:</label>
+		<input type="text" id="language" name="language" >
+		
+		<label for="edition">Edition:</label>
+		<input type="text" id="edition" name="edition" >
+		
+		<label for="photos">Cover Photos:</label>
+		<input type="file" id="photos" name="photos" >
+		
+		<label for="publicationDate">Publication Date:</label>
+		<input type="date" id="publicationDate" name="publicationDate">
+	
+		
+		
+		<label for="cityId">City Name:</label>
+		<input type="text" id="cityId" name="cityId" >
+		
+		<label for="pinCode">Pin Code:</label>
+		<input type="number" id="pinCode" name="pinCode" >
+		
+		<label for="color">Color:</label>
+		<input type="color" id="color" name="color" >
+		
+		<button type="submit">Submit</button>
+	</form>
+</body>
+</html>
