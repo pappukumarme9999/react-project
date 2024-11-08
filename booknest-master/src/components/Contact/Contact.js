@@ -109,7 +109,6 @@ export default Contact;
   <div className="row">
     <div className="col-lg-12">
       <div id="googleMap">
-        
 
       </div>
     </div>

@@ -12,17 +12,3 @@ export const imageToBase64 = (file) => {
         reader.onerror = (error) => reject(`Error converting image to base64: ${error.message}`);
     });
 };
-
-
-
-/*
-to be imported in the component an image is being uploaded
-src\components\DonateBooks\DonateForm.js
-src\components\SellBook\SellBook.js
-src\components\Donetors\Donetors.js
-src\components\User\MyAccount\Account.js
-src\components\User\MyAccount\Update.js
-src\components\User\MyAccount\UpdateBook\UpdateBook.js
-
-
-*/

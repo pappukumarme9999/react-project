@@ -10,6 +10,3 @@ const newAxios = axios.create({
     withCredentials: true
 });
 export default newAxios;
-
-    // baseURL : 'https://booknest-beckbone.onrender.com',
-    // baseURL : 'https://pustakalaya-beckbone.onrender.com',
