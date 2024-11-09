@@ -155,6 +155,8 @@ booknest-master/
 │   ├── components/
 │   │   ├── About/
 │   │   │   ├── 6.jpg
+│   │   │   ├── image.png
+│   │   │   ├── Team.js
 │   │   │   └── About.js
 │   │   ├── Banner/
 │   │   │   └── Banner.js
@@ -170,6 +172,7 @@ booknest-master/
 │   │   │   ├── BooksCard.js
 │   │   │   └── Card.js
 │   │   ├── BuyNow/
+│   │   │   ├── BuyNow.css
 │   │   │   └── BuyNow.js
 │   │   ├── Carousal/
 │   │   │   ├── 2.jpg
@@ -180,11 +183,11 @@ booknest-master/
 │   │   │   └── Contact.js
 │   │   ├── DonateBooks/
 │   │   │   ├── Donate.css
-│   │   │   ├── DonateBooks.js
+│   │   │   ├── Donate.js
 │   │   │   └── DonateForm.js
-│   │   ├── Donaters/
-│   │   │   ├── Donater.js
-│   │   │   └── Donaters.css
+│   │   ├── Donetors/
+│   │   │   ├── Donetors.js
+│   │   │   └── Donetors.css
 │   │   ├── ExtraServices/
 │   │   │   ├── ExtraGoogle.css
 │   │   │   ├── GoogleLogin.js
@@ -200,9 +203,11 @@ booknest-master/
 │   │   │   └── Header.js
 │   │   ├── Home/
 │   │   │   └── Home.js
+│   │   ├── ImageUploader/
+│   │   │   └── ImageUploader.js
 │   │   ├── ProtectedRoute/
 │   │   │   └── ProtectedRoute.js
-│   │   ├── SellBooks/
+│   │   ├── SellBook/
 │   │   │   └── SellBook.js
 │   │   ├── Service/
 │   │   │   ├── Interceptor.js
@@ -265,28 +270,33 @@ booknest-master/
 │   │   ├── ViewDescription/
 │   │   │   ├── ViewDescription.css
 │   │   │   └── ViewDescription.js
+│   │   ├── Donetors.js
+│   │   └── Donetors.css
 │   ├── Externals/
 │   │   ├── BestAuthor.js
 │   │   ├── EasyInvoice.js
-│   │   ├── Offers.js
-│   │   └── Team.js
+│   │   └── Offers.js
 │   ├── router-config/
+│   │   ├── addBookSlice.js
 │   │   ├── CartSlice.js
 │   │   ├── categorySlice.js
+│   │   ├── citySlice.js
 │   │   ├── recentProductSlice.js
 │   │   ├── stateSlice.js
 │   │   ├── store.js
 │   │   ├── topProductSlice.js
 │   │   └── userSlice.js
-│   ├── webApi/
-│   │   ├── receipt.html
-│   │   └── webapi.js
+│   ├── utils/
+│   │   └── imageToBase64.js
+│   ├── WebApi/
+│   │   ├── Receipt.html
+│   │   └── WebApi.js
 │   ├── App.js
 │   ├── App.css
 │   ├── App.test.js
 │   ├── index.js
 │   ├── index.css
-│   ├── interceptor.js
+│   ├── Interceptor.js
 │   ├── reportWebVitals.js
 │   └── setupTests.js
 ├── package.json

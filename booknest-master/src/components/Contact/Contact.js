@@ -1,4 +1,3 @@
-// import TopBar from "../Topbar/topbar";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
@@ -104,14 +103,4 @@ function Contact() {
 }
 
 export default Contact;
-<div className="map-area mb-70">
-<div className="container">
-  <div className="row">
-    <div className="col-lg-12">
-      <div id="googleMap">
 
-      </div>
-    </div>
-  </div>
-</div>
-</div>

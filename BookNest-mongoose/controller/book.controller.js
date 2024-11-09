@@ -5,6 +5,28 @@ import { validationResult } from "express-validator";
 import fs from "fs";
 import path from "path";
 
+export const TotalBook = (request, response, next) => {
+    let page = parseInt(request.query.page) || 1;
+    let perPageData = 10;
+    Book.find().skip((page - 1) * 10).limit(10).then(result => {
+        return response.status(200).json({ bookList: result, status: true });
+    }).catch(err => {
+        return response.status(500).json({ Message: "Internal server error...", status: false });
+    })
+}
+
+export const searchByCategoryId = async (request, response, next) => {
+    console.log("Received request to search by category ID:", request.body.categoryId);
+    try {
+        const books = await Book.find({ categoryId: request.body.categoryId });
+        console.log("Books found:", books.length);
+        return response.status(200).json({ result: books, status: true });
+    } catch (err) {
+        console.error("Error in searchByCategoryId:", err);
+        return response.status(500).json({ msg: "Internal Server Error" });
+    }
+};
+
 export const saveProduct = async (request, response, next) => {
     try {
         for (let book of request.body.book) {
@@ -95,20 +117,6 @@ export const permissionAllowed = async (request, response, next) => {
     }
 }
 
-// export const bookList = (request, response, next) => {
-
-//     // let page = parseInt(request.query.page) || 1;
-//     // let perPage = 10;
-//     Book.find()
-//         // .skip((page-1) * 10).limit(10)
-//         .then(result => {
-//             return response.status(200).json({ bookList: result, status: true });
-//         }).catch(err => {
-//             return response.status(500).json({ Message: "Internal server error...", status: false });
-//         })
-
-// }
-
 export const bookList = async (request, response) => {
     try {
         const books = await Book.find();  // Fetch all books
@@ -118,15 +126,7 @@ export const bookList = async (request, response) => {
     }
 };
 
-export const TotalBook = (request, response, next) => {
-    let page = parseInt(request.query.page) || 1;
-    let perPageData = 10;
-    Book.find().skip((page - 1) * 10).limit(10).then(result => {
-        return response.status(200).json({ bookList: result, status: true });
-    }).catch(err => {
-        return response.status(500).json({ Message: "Internal server error...", status: false });
-    })
-}
+
 
 export const TopBooks = (request, response, next) => {
     Book.find().limit(12).then(result => {
@@ -160,14 +160,6 @@ export const searchByBookName = (request, response, next) => {
     })
 }
 
-export const searchByCategoryId = (request, response, next) => {
-
-    Book.find({ categoryId: request.body.categoryId }).then(result => {
-        return response.status(200).json({ result: result, status: true })
-    }).catch(err => {
-        return response.status(500).json({ msg: "Internal Server Error" });
-    })
-}
 
 export const viewByUserId = (request, response, next) => {
     Book.find({

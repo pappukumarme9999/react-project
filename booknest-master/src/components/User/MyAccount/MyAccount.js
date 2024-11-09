@@ -11,8 +11,10 @@ import Order from "./Order/Order.js";
 import Header from "../../Header/Header.js";
 import Footer from "../../Footer/Footer.js";
 function MyAccount(){
-  
-    return<>
+    console.log("Rendering MyAccount component");
+
+    return(
+    <>
     <Header/>
     
     <div className="entry-header-area mt-3">
@@ -59,6 +61,7 @@ function MyAccount(){
     </div>
     <Footer/>
     </>
+    );
 }
 
 export default MyAccount;

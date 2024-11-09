@@ -1,20 +1,4 @@
-// import TopBar from "../Topbar/topbar";
-// import Footer from "../footer/footer";
-// import Header from "../header/header";
-
-// function Checkout(){
-//         return <>
-//             <Header/>
-//             <TopBar/>
-//             <Footer/>
-
-//         </>
-// }
-// export default Checkout;
-
-
 import React, { useState } from 'react';
-import TopBar from "../TopBar/TopBar";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Payment from "../Payment/Razorpay";  // Import the Payment component

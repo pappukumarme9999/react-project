@@ -11,9 +11,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 function Books() {
   const { currentUser } = useSelector((state) => state.user);
-  const { categoryList, error, isLoading } = useSelector(
-    (state) => state.category
-  );
+  const { categoryList = [], error } = useSelector((state) => state.category); // Set default empty array for safe mapping
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,16 +23,22 @@ function Books() {
   const [page, setPage] = useState(1);
 
   const loadBooks = async () => {
+    console.log("Loading books, page:", page);
+
     setLoading(true);
     try {
-      let response = await axios.get(
+      const response = await axios.get(
         `${apiEndPoint.TOTAL_BOOKS}?page=${page}`
       );
       if (response.data.status) {
-        setBookData([...bookData, ...response.data.bookList]);
-        setPage(page + 1);
+        console.log("Books loaded:", response.data.bookList.length);
+        setBookData(prevBooks => [...prevBooks, ...response.data.bookList]);
+        setPage(prevPage => prevPage + 1);
+      } else {
+        setBookError("Failed to load books.");
       }
     } catch (error) {
+      console.error("Error loading books:", error);
       setBookError("Something Went Wrong");
     } finally {
       setLoading(false);
@@ -55,24 +59,28 @@ function Books() {
     }
   };
 
-  // const handlePriceSelect = async (price) => {
-  //   const maxPrice = price.split("-")[0];
-  //   const minPrice = price.split("-")[1];
-  //   try {
-  //     let response = await axios.post(apiEndPoint.PRICE, { minPrice: minPrice, maxPrice: maxPrice });
-  //     setData(response.data.result);
-  //   }
-  //   catch (error) {
-  //   }
-  // }
+  const handlePriceSelect = async (price) => {
+    const [minPrice, maxPrice] = price.split("-");
+    try {
+      const response = await axios.post(apiEndPoint.PRICE, { minPrice, maxPrice });
+      setBookData(response.data.result || []);
+    } catch (error) {
+      toast.error("Failed to filter by price range.");
+    }
+  };
 
   const viewBookByCategory = async (categoryID) => {
+    console.log("Viewing books by category ID:", categoryID);
+    if (!categoryID) {
+      // toast.error("Invalid Category ID");
+      return; // Prevent API call if categoryID is undefined
+    }
+
     try {
-      const response = await axios.get(
-        `${apiEndPoint.BOOK_BY_CATEGORY}?categoryId=${categoryID}`
-      );
+      const response = await axios.post(apiEndPoint.BOOK_BY_CATEGORY, { categoryId: categoryID });
       if (response.data.status) {
-        setBookData(response.data.bookList);
+        console.log("Books by category loaded:", response.data.result.length);
+        setBookData(response.data.result);
       }
     } catch (error) {
       toast.error("Something went wrong while fetching categories!");
@@ -80,14 +88,17 @@ function Books() {
   };
 
   const searchByAuthor = async (author) => {
+    console.log("Searching books by author:", author);
     try {
       const response = await axios.post(apiEndPoint.SEARCH_BY_AUTHOR, {
         author,
       });
       if (response.data.status) {
-        setAuthors(response.data.bookList);
+        console.log("Books by author loaded:", response.data.result.length);
+        setAuthors(response.data.result);
       }
     } catch (error) {
+      console.error("Error searching by author:", error);
       toast.error("Something went wrong while searching by author!");
     }
   };
@@ -133,6 +144,8 @@ function Books() {
   };
 
   useEffect(() => {
+    console.log("Initial loading of books and fetching categories");
+    loadBooks();
     fetchAllBooks();
     viewBookByCategory();
     searchByAuthor();
@@ -145,13 +158,13 @@ function Books() {
       <div className="container-fluid">
         <div className="FilterMainDiv">
           <div className="RightPart">
-            <button className="SearchButton">Search</button>
+            {/* <button className="SearchButton">Search</button> */}
             <div className="rightpartHeading">
               <p className="Heading">Categories</p>
             </div>
             <div className="CategoryList">
               <ul>
-                <li className="listhover" onClick={fetchAllBooks}>
+                <li className="listhover" onClick={loadBooks}>
                   All
                 </li>
                 {!error &&
@@ -193,7 +206,7 @@ function Books() {
             </div>
 
             <InfiniteScroll
-              dataLength={bookData.length}
+              dataLength={bookData?.length || 0} // Safe fallback for length
               next={loadBooks}
               hasMore={!loading && bookData.length < 100}
               loader={<p>Loading...</p>}
@@ -201,7 +214,6 @@ function Books() {
             >
               <div className="row m-auto">
                 {bookData
-                  .filter((book) => book.permission && book.status)
                   .map((book, index) => (
                     <div
                       key={index}
@@ -211,7 +223,7 @@ function Books() {
                     >
                       <div className="card">
                         <img
-                          src={`${apiEndPoint.DISK_STORAGE}${book.photos.split("@")[1]}`}
+                          src={book.photos}
                           className="img-fluid cardimg"
                           alt={book.name}
                         />
@@ -255,12 +267,12 @@ function Books() {
                   ))}
               </div>
             </InfiniteScroll>
-            <div className="row m-auto">
-              {keyword?.filter((book) => book.permission && book.status == true).map((book, index) =>
+            {/* <div className="row m-auto">
+              {keyword?.map((book, index) =>
                 <div key={index} className="col-md-4 col-sm-6 mt-5" data-aos="fade-up" data-aos-duration="500">
                   <div className="card">
                     <img
-                      src={`${apiEndPoint.DISK_STORAGE}${book.photos.split("@")[1]}`}
+                      src={book.photos}
                       className="img-fluid cardimg"
                       alt={book.name}
                     />
@@ -274,7 +286,7 @@ function Books() {
                     </div>
                   </div>
                 </div>)}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -282,5 +294,4 @@ function Books() {
     </>
   );
 }
-
 export default Books;

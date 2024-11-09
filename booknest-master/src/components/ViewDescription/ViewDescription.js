@@ -22,7 +22,7 @@ function ViewDescription() {
                                     <div id="div1">
                                         <div id="main_image" className="image">
                                             <img
-                                                src={"https://drive.google.com/uc?export=view&id=" + book.photos.substring(32, book.photos.lastIndexOf("/"))}
+                                                src={book.photos}
                                                 alt=""
                                                 id="mainDescriptionImage"
                                             />

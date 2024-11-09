@@ -113,17 +113,19 @@ export const userProfile = async (request, response, next) => {
 
 export const updateProfile = async (req, response, next) => {
     try {
+        console.log("Received request to update profile:", req.body);
         const user = await User.findById(req.body._id);
         if (user) {
             user.name = req.body.name || user.name;
             user.contact = req.body.contact || user.contact;
-            user.photo = "BookNest@" + req.file.filename || user.photo;
+            user.photo = req.file ? req.file.filename : req.body.photo || user.photo;
 
             const updatedUser = await user.save();
             return response.status(200).json({ updatedUser: updatedUser, staus: true });
         }
     }
     catch (err) {
+        console.error("Error updating profile:", err);
         return response.status(500).json({ error: "Internal server error" });
     }
 }

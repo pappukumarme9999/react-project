@@ -6,13 +6,11 @@ import multer from "multer";
 import {
   addBook,
   saveProduct,
-  permissionAllowed,
   removeBook,
   TopBooks,
   bookList,
   DonateBookList,
   searchByCategoryId,
-  TotalPendingBook,
   searchByAuthor,
   searchByBookName,
   viewByUserId,
@@ -21,7 +19,7 @@ import {
   TotalBook,
   searchByuserId,
   price,
-  donetors,
+  donetors
 } from "../controller/book.controller.js";
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -41,7 +39,7 @@ router.post(
     body("name").notEmpty().withMessage("Book Name Required"),
     body("author").notEmpty().withMessage("Author is required"),
     body("language").notEmpty().withMessage("Language is required"),
-    body("price").notEmpty().withMessage("Price is required"),
+    // body("price").notEmpty().withMessage("Price is required"),
     body("edition").notEmpty().withMessage("Edition is required"),
     body("description").notEmpty().withMessage("Description is required"),
     body("userId").notEmpty().withMessage("User ID is required"),
@@ -61,18 +59,16 @@ addBook
 router.post("/saveAll", saveProduct);
 router.get("/topBooks", TopBooks);
 router.get("/list", bookList);
-router.get("/totalbook", TotalBook);
+router.get("/totalbook", TotalBook); 
 router.get("/freeBookList", DonateBookList);
-router.put("/removeBook/book/:id", removeBook);
-router.post("/searchbyAuthor", searchByAuthor);
-router.post("/searchByCategoryId", searchByCategoryId);
+router.delete("/removeBook/:id", removeBook);
+router.post("/searchByCategoryId", searchByCategoryId); 
+router.post("/searchbyAuthor", searchByAuthor); 
 router.get("/searchByBookName/:name", searchByBookName);
 router.post("/byuserId", viewByUserId);
 router.post("/searchByKeyWord", searchByKeyWord);
-router.post("/update-book", upload.single("profile"), updateBook);
-router.get("/totalpendingbook", TotalPendingBook);
-router.post("/serachByuserId", searchByuserId);
+router.put("/update-book", upload.single("profile"), updateBook);
+router.post("/serachByuserId", searchByuserId); 
 router.post("/price", price);
 router.get("/donetors", donetors);
-router.put("/change/permissionAllowed/:id", permissionAllowed);
 export default router;

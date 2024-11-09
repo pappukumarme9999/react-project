@@ -18,12 +18,12 @@ export const apiEndPoint = {
 
     
     ALL_BOOKS:"/book/bookList",
-    TOTAL_BOOKS:"/book/TotalBook",
+    TOTAL_BOOKS:"/book/totalbook",
     TOP_PRODUCT_API:"/book/TopBooks",
-    // FREE_BOOK_API:"/book/freebooklist",
-    BOOK_BY_CATEGORY :"book/searchByCategoryId",
+    FREE_BOOK_API:"/book/freebooklist",
+    BOOK_BY_CATEGORY :"/book/searchByCategoryId",
     Search_By_Categoryname: "/book/searchByCategoryId",
-    SEARCH_BY_AUTHOR: "/book/searchByAuthor",
+    SEARCH_BY_AUTHOR: "/book/searchbyAuthor",
     UPLOAD_BOOK : "/book/addBook",
     ADD_BOOK : "/book/addBook",
     SEARCH_BOOKS : "/book/searchByKeyWord",

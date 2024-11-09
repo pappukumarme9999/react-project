@@ -46,7 +46,7 @@ function SellboooksForm() {
     useEffect(() => {
         if (success) {
             toast.success("Book listed for sale successfully!");
-            navigate("/books");
+            navigate("/book");
             dispatch(resetAddBookState());
         } else if (error) {
             toast.error("Failed to list book for sale.");

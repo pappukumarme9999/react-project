@@ -42,7 +42,7 @@ function DonateForm() {
   useEffect(() => {
     if (success) {
       toast.success("Book added successfully!");
-      navigate("/books");
+      navigate("/book");
       dispatch(resetAddBookState());
       console.log("Book added successfully, navigating to book list.");
     } else if (error) {

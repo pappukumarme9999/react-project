@@ -1,6 +1,5 @@
 import { Team } from "./Team";
 import Header from "../Header/Header";
-// import TopBar from "../TopBar/TopBar";
 import Footer from "../Footer/Footer";
 
 function About(){
@@ -15,7 +14,7 @@ function About(){
                     <div className="col-lg-7 col-md-6 col-12">
                         <div className="about-img">
                             <a href="#">
-                                <img src="./image.png" alt="man" />
+                                <img src="https://plus.unsplash.com/premium_photo-1681487433878-d5c4bedd7a57?q=80&w=1461&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="man" />
                             </a>
                         </div>
                     </div>

@@ -3,13 +3,16 @@ import{Link} from 'react-router-dom'
 import { apiEndPoint } from "../../../WebApi/WebApi.js";
 
 function Account() {
-    var userImage;
-    const { currentUser, isError } = useSelector((state) => state.user);
-    if(currentUser.photo?.split('@')[1])
-        userImage = apiEndPoint.DISK_STORAGE+currentUser.photo.split('@')[1];
-    else if(currentUser.photo.split('@'[0]))
-        userImage = currentUser.photo.split('@')[0];
-    
+    const { currentUser } = useSelector((state) => state.user);
+    let userImage;
+    if (currentUser && currentUser.photo) {
+        console.log("User photo received....");
+        // userImage = <img src={currentUser.photo} alt="User Photo"/>
+        userImage = currentUser.photo;
+    } else {
+        console.log("User photo is undefined, using placeholder image.");
+        userImage = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png';
+    }
     return <>
         <div className="tab-pane fade mb-5 account" id="account-info" role="tabpanel">
             <div className="myaccount-content">
@@ -17,12 +20,12 @@ function Account() {
                 <div className="account-details-form ">
                     <form action="#">
                         <div className="single-input-item row " >
-                            {currentUser?.photo?
-                            <img src={userImage} style={{ height: '150px', width: '180px', borderRadius: "50%" , margin: "auto"}} type="image/png"
-                                  label="Upload Profile Picture" alt='Profile Image' />:
-                                  <img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png' style={{ height: '150px', width: '180px', borderRadius: "50%" , margin: "auto"}} type="image/png"
-                                        label="Upload Profile Picture" alt='Profile Image' />}
-                        </div>
+                        <img 
+                                src={userImage} 
+                                style={{ height: '150px', width: '180px', borderRadius: "50%", margin: "auto" }}
+                                alt='Profile'
+                            />
+                            </div>
 
                         <div className="single-input-item">
                             <i className="fas fa-user fa-lg me-3 fa-fw" />
