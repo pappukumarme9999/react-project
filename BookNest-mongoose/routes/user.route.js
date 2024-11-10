@@ -11,7 +11,7 @@ router.post("/signIn",signIn);
 router.get("/userList",allUserList)
 router.post("/viewprofile",userProfile );
 router.post("/updateProfile",upload.single("profile"),updateProfile);
-router.post('/forgot-password',forgotPassword);
-router.post('/forgettpassword', updatePassword);
+router.post('/forgotpassword',forgotPassword);
+router.post('/updatepassword', updatePassword);
 router.post('/checkuser',checkUser);
 export default router;

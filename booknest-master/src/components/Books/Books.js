@@ -5,7 +5,7 @@ import axios from "../../Interceptor.js";
 import { apiEndPoint } from "../../WebApi/WebApi.js";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; 
 import { toast, ToastContainer } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -15,16 +15,17 @@ function Books() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const keyword = location.state?.Books || [];
   const [bookData, setBookData] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [bookError, setBookError] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category
+  const keyword = location.state?.Books || [];
 
+  // Load paginated books
   const loadBooks = async () => {
     console.log("Loading books, page:", page);
-
     setLoading(true);
     try {
       const response = await axios.get(
@@ -72,10 +73,13 @@ function Books() {
   const viewBookByCategory = async (categoryID) => {
     console.log("Viewing books by category ID:", categoryID);
     if (!categoryID) {
-      // toast.error("Invalid Category ID");
+      toast.error("Invalid Category ID");
       return; // Prevent API call if categoryID is undefined
     }
 
+    setSelectedCategory(categoryID); // Track selected category
+    setBookData([]); // Reset book data to prevent duplicates
+    setPage(1); // Reset pagination page
     try {
       const response = await axios.post(apiEndPoint.BOOK_BY_CATEGORY, { categoryId: categoryID });
       if (response.data.status) {
@@ -145,10 +149,10 @@ function Books() {
 
   useEffect(() => {
     console.log("Initial loading of books and fetching categories");
-    loadBooks();
-    fetchAllBooks();
-    viewBookByCategory();
-    searchByAuthor();
+    loadBooks();  // Load paginated books only initially
+    // fetchAllBooks();
+    // viewBookByCategory();
+    // searchByAuthor();
   }, []);
 
   return (
@@ -164,7 +168,11 @@ function Books() {
             </div>
             <div className="CategoryList">
               <ul>
-                <li className="listhover" onClick={loadBooks}>
+              <li className="listhover" onClick={() => {
+                    setBookData([]);
+                    setPage(1);
+                    loadBooks();
+                  }}>
                   All
                 </li>
                 {!error &&
@@ -196,7 +204,6 @@ function Books() {
               </div>
             </div>
           </div>
-
           <div className="LeftPart">
             <div className="mainImage">
               <img src="../../img/banner/9.jpg" alt="Banner" />
@@ -267,26 +274,6 @@ function Books() {
                   ))}
               </div>
             </InfiniteScroll>
-            {/* <div className="row m-auto">
-              {keyword?.map((book, index) =>
-                <div key={index} className="col-md-4 col-sm-6 mt-5" data-aos="fade-up" data-aos-duration="500">
-                  <div className="card">
-                    <img
-                      src={book.photos}
-                      className="img-fluid cardimg"
-                      alt={book.name}
-                    />
-                    <a href="" className="card-action"><i className="fa fa-shopping-cart carticon mt-3" style={{ cursor: "pointer" }} onClick={() => addToCart(book._id)}></i></a>
-                    <div className="card-body">
-                      <p className="card-text cardtitle">{book.name.substring(0, 15)}</p>
-                      <p className="cardprice"><span className="cardtitle">Author: </span>{book.author.substring(0, 10)}</p>
-                      <b className="card-text cardprice"><span className="cardtitle">Price: </span>₹{book.price}</b>
-                      <br />
-                      <button className="btn mt-2  bookbuynowbutton" >Get Now</button><span className="viewcircle ml-2 " onClick={() => viewDescription(book)}><small className="viewicon p-2 " ><i className="fa fa-eye" /></small></span>
-                    </div>
-                  </div>
-                </div>)}
-            </div> */}
           </div>
         </div>
       </div>
