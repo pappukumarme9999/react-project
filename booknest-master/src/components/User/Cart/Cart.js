@@ -13,32 +13,34 @@ import Payment from "../../ExtraServices/RazorPay.js";
 import Invoice from "../../../Externals/EasyInvoice.js";
 
 function Cart() {
-  const [productList, setProductList] = useState([]);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const { currentUser } = useSelector(state => state.user);
-  const { cartItems, flag } = useSelector(state => state.cart);
-  const [paymentMode, setPaymentMode] = useState(false);
   const [contactPerson, setContactPerson] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [delieveryAddress, setDeliveryAddress] = useState("");
+  const [paymentMode, setPaymentMode] = useState(false);
+
+  const { currentUser } = useSelector(state => state.user);
+  const { cartItems, flag } = useSelector(state => state.cart);
+
+  const [productList, setProductList] = useState([]);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const location = useLocation();
   const dispatch = useDispatch();
+
   var amount = 0;
   var total = 0;
   var status = false;
+
   const book = location?.state?.Buybook;
   if(book?.Buyflag)
     status = book.Buyflag;
   cartItems?.map((carts,index)=>{
       total+= carts.bookId.price*1+30;
-
   })
-  
+
   const loadProducts = async () => {
     try {
-
       let response = await axios.post(apiEndPoint.FETCH_CART, { userId: currentUser._id });
       if(status)
           dispatch(setCartItems(book.Buybook));
@@ -51,15 +53,24 @@ function Cart() {
   }
   const loadOrder = async (event) => {
     try {
-
       event.preventDefault();
       const date = new Date().toString().substring(4, 15).replaceAll(' ', '-');
-      let response = await axios.post(apiEndPoint.ORDER_SAVE, { userId: currentUser._id, billamount: total, contactPerson, contactNumber, delieveryAddress, paymentMode, cartId: cartItems[0]._id, orderItem: cartItems, date:date});
-      const orederPerson = {name : currentUser.name,address : delieveryAddress+'-'+contactPerson+' '+contactNumber,date,orderId : response.data.orderId};
+      let response = await axios.post(apiEndPoint.ORDER_SAVE, { 
+        userId: currentUser._id, 
+        billamount: total, 
+        contactPerson, 
+        contactNumber, 
+        delieveryAddress, 
+        paymentMode, 
+        cartId: cartItems[0]._id, 
+        orderItem: cartItems, 
+        date:date
+    });
+      const orderPerson = {name : currentUser.name,address : delieveryAddress+'-'+contactPerson+' '+contactNumber,date,orderId : response.data.orderId};
       const userData = {name : currentUser.name,address:delieveryAddress,date,orderId:response._id};
       if(response.data.status)
         {
-          // <Invoice data = {orederPerson} books = {cartItems}/>
+          <Invoice data = {orderPerson} books = {cartItems}/>
           const response = await axios.post(apiEndPoint.USER_SIGNIN,{user:userData,books:cartItems});
           toast.success("Order placed success");
           setTimeout(()=>{
@@ -70,10 +81,7 @@ function Cart() {
     } catch (err) {
     }
   }
-
-
   const removeCart = async (id) => {
-
     try {
       if (window.confirm("Do You Want To Remove")) {
         dispatch(removeFromCart({ userId: currentUser._id, _id: id }));
@@ -82,12 +90,9 @@ function Cart() {
       toast.error("Something Went Wrong");
     }
   }
-
   useEffect(() => {
     loadProducts();
   }, []);
-
-
   return <>
     <Header />
     <ToastContainer/>
@@ -105,8 +110,6 @@ function Cart() {
         </div>
       </div>
     </div>
-
-
     <div className="modal fade" id="checkoutModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style={{
       border: "2px solid black"
     }}>
@@ -151,7 +154,7 @@ function Cart() {
           {!flag && cartItems?.map((product, index) =>
             <div className="addtocartdiv row mt-3 ">
               <div className="col-md-2 col-sm-4 ">
-                <img src={"https://drive.google.com/uc?export=view&id=" + product.bookId.photos?.substring(32, product.bookId.photos.lastIndexOf("/"))} className="imgcart mt-2 img img-fluid img-responsive img-thumbnail" alt="" />
+                <img src={product.bookId.photos} className="imgcart mt-2 img img-fluid img-responsive img-thumbnail" alt="" />
               </div>
               <div className="col-md-7 mt-2 ">
                 <h6 className="mt-2 cartscontainheading">{product.bookId.name}</h6>
